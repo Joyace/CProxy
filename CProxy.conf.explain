@@ -1,0 +1,75 @@
+分为4个模块：global、http、https、httpdns
+http和https模块的set_first del_hdr strrep regrep语法从上往下执行
+只有双引号引住的变量才支持换行
+
+//全局模块
+global {
+    设置运行uid
+    uid = 3004;
+    
+    http处理模式[wap wap_connect net_proxy net_connect] 不设置则为net
+    wap: 所有请求走代理ip
+    wap_connect: 所有请求走https代理ip
+    net_proxy: HTTP请求80 8080端口直连目标服务器，其他端口走http代理ip
+    net_connect : HTTP请求80 8080端口直连目标服务器，其他端口走https代理ip
+    net: HTTP请求直连目标服务器
+    mode = wap;
+
+    //TCP，DNS监听地址，不填IP则为默认IP
+    tcp_listen = 10086;
+    dns_listen = 10086;
+
+    //TCP首次等待客户端数据超时，超时后建立CONNECT连接
+    tcp_client_timeout = 5;
+}
+
+//http模块
+http {
+    //每次请求最大下载字节
+    //download_max_size = 29m; //后面不带m或者M当字节处理
+    
+    //普通http请求只留GET POST联网
+    only_get_post = on;
+    
+    //http端口，其他端口先建立CONNECT连接
+    http_port = 80,8080,10086;
+    
+    // http目标地址
+    addr = 10.0.0.172:80;
+    
+    //删除Host行，不区分大小写
+    del_hdr = host;
+    del_hdr = X-Online-Host;
+    
+    //如果搜索到以下字符串则进行https代理，多个,隔开(net模式下无效)
+    proxy_https_string = WebSocket,Upgrade;
+    
+    以下语法特有: [M]: method，[H]: host，[U]: uri，[url]: url，[V]: protocol
+    //设置首行
+    set_first = "[M] [U] [V]\r\n Host: rd.go.10086.cn\r\n";
+    //字符串替换，区分大小写
+    //strrep = "Host:" -> "Cloud:";
+    
+    //正则表达式替换，不区分大小写
+    //regrep = "^Host:[^\n]*\n" -> "Meng: [H]\r\n";
+}
+
+//https模块，没有only_get_post、http_port和download_max_size，其他语法跟http一样
+https {
+    addr = 10.0.0.172:80;
+    del_hdr = host;
+    set_first = "CONNECT /rd.go.10086.cn HTTP/1.1\r\nHost: [H]\r\n";
+}
+
+//httpDNS模块
+httpdns {
+    //http请求目标地址
+    addr = 182.254.118.118;
+    //缓存路径
+    //cachePath = dns.cache;
+    //限制缓存数目
+    //cacheLimit = 64;
+    //http请求头，不设置则用http模块修改后的默认请求，[D]为查询的域名
+    //http_req = "[M] http://rd.go.10086.cn/d?dn=[D] [V]\r\nHost: rd.go.10086.cn\r\nConnection: close\r\n\r\n";
+}
+
