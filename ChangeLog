@@ -1,0 +1,53 @@
+CProxy v0.2 (2017-01-10)
+    删除从url中获取Host的代码，只在X-Online-Host和Host两个头域获取
+
+CProxy v0.3 (2017-01-12)
+    删除daemon语法，程序只在后台运行
+    添加regmatch语法
+
+CProxy v0.4 (2017-01-15)
+    删除部分无用代码
+
+CProxy v0.5 (2017-01-17)
+    删除配置文件模块名后面的':'
+
+CProxy v0.6 (2017-01-26)
+    dns:
+        完善获取HTTP回应ip的代码
+        添加缓存功能，可以减少部分流量消耗
+        因为没有轮询功能，只返回一个ip
+    tcp:
+        HTTP请求只有读取完请求头才修改
+        修复部分崩溃问题
+
+CProxy v0.7 (2017-01-27)
+    0.6版本如果不开启dns缓存，http回应IP会在dns回应请求前释放回应IP的内存
+
+CProxy v0.8 (2017-02-01)
+    DNS缓存储存添加互斥锁，防止多线程环境下同时写入缓存文件，导致下次启动失败
+    添加httpudp，代理实现并不完美，而且需要在服务器上开启httpudp服务端
+    添加procs语法，如果文件描述符不够可开启多进程
+
+CProxy v0.9 (2017-02-06)
+    完善读取配置文件代码
+    添加client_timeout语法
+
+CProxy v1.0 (2017-03-04)
+    优化HTTPS和HTTPDNS，和其他一些东西
+    修复部分应用不联网
+    由于SHELL没有兼容所有系统的统一关闭方式和检测运行状态方式，添加关闭程序命令和检测运行状态命令
+    http_get_post语法改为only_get_post，放在http模块
+    添加download_max_size语法，部分代理不支持一次性下载大文件
+    自定义HTTPDNS请求头，%s改为[D]
+
+CProxy v1.1 (2017-03-18)
+    去除默认WebSocket做CONNECT处理，添加proxy_https_string语法
+    删除DNS查询域名最后的.
+    添加http_port语法
+    删除regrep.e语法，regrep使用扩展正则表达式
+    删除httpUDP
+
+CProxy v1.2 (0-0-0)
+    删除procs和stats_uri语法
+    修复崩溃
+    wap_connect支持原始请求直接发送到监听地址
