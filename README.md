@@ -14,7 +14,7 @@ Android-ndk:
 ~~~~~
 
 启动：  
-./CProxy CPrpxy.conf  
+./CProxy CProxy.conf  
 关闭：  
 ./CProxy stop  
 查询运行状态：  
