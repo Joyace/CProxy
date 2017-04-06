@@ -178,7 +178,8 @@ inline char *get_host(char *ori_header)
             if (*end >= 65 && *end <= 90)
                 *end = *end + 32;
         }
-        if (strncmp(begin, "x-online-host", end - begin) == 0)
+        //部分请求头一行开头直接为:
+        if (end - begin > 0 && strncmp(begin, "x-online-host", end - begin) == 0)
         {
             begin = end + 1; //这里的begin表示值的开始
             break;
