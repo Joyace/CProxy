@@ -1,7 +1,7 @@
-CProxy    http://cmwap.wang/  
+CProxy     http://cmwap.wang/  
 ======  
   
-C语言写的一个TCP、DNS代理客户端
+C语言写的一个TCP、DNS代理客户端 
 以HTTP请求报文的形式发送到目标服务器  
 可以修改HTTP请求头    
 
