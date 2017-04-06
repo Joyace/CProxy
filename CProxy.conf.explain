@@ -41,8 +41,9 @@ http {
     del_hdr = host;
     del_hdr = X-Online-Host;
     
-    //如果搜索到以下字符串则进行https代理，多个,隔开(net模式下无效)
-    proxy_https_string = WebSocket,Upgrade;
+    //如果搜索到以下字符串则进行https代理(net模式下无效)
+    proxy_https_string = WebSocket;
+    proxy_https_string = Upgrade:;
     
     以下语法特有: [M]: method，[H]: host，[U]: uri，[url]: url，[V]: protocol
     //设置首行
