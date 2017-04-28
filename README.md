@@ -20,3 +20,4 @@ Android-ndk:
 查询运行状态：  
 ./CProxy status  
 
+Fork来自：https://github.com/mmmdbybyd/CProxy
